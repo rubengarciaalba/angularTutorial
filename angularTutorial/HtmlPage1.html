@@ -4,11 +4,19 @@
     <title></title>
 	<meta charset="utf-8" />
     <script src="scripts/angular.js"></script>
+    <script src="scripts/app.js"></script>
 </head>
-<body ng-app>
+<body ng-app="myApp" ng-controller="myCrtl">
 
-    <h1>Hola mundo</h1>
-    {{ 2 + 2 }}
+    <h1>Data Binding</h1>
+
+    {{ 2 + 5 }}
+    <h4>{{ firstName }}</h4>
+    <h4>{{ lastName }}</h4>
+    <h4>{{ firstName + " " + lastName }}</h4>
+
+    <h1>Directives</h1>
+    <w3-test-directive></w3-test-directive>
 
 </body>
 </html>
