@@ -8,15 +8,107 @@
 </head>
 <body ng-app="myApp" ng-controller="myCrtl">
 
-    <h1>Data Binding</h1>
+    <h1>Data Two-Way Binding and Controller</h1>
 
-    {{ 2 + 5 }}
+    {{ 2 + 5 }} <br />
+
+    First Name: <input type="text" ng-model="firstName"><br>
+    Last Name: <input type="text" ng-model="lastName"><br>
+
     <h4>{{ firstName }}</h4>
     <h4>{{ lastName }}</h4>
     <h4>{{ firstName + " " + lastName }}</h4>
 
     <h1>Directives</h1>
-    <w3-test-directive></w3-test-directive>
+    
+    <test-Direct></test-Direct>
 
+    <h1>Controller Events</h1>
+    <h3 ng-click="changeName()">{{firstName}} (do click here)</h3>
+
+    <h1>Controller Methods</h1>
+    <h3>{{ fullName() }}</h3>
+
+    <h1>Iterations (ng-repeat)</h1>
+    <ul>
+        <li ng-repeat="x in names">
+            {{ x.name + ", " + x.country }}
+        </li>
+    </ul>
+
+    <h1>Filters</h1>
+
+<!--
+    FILTROS POR DEFECTO
+
+    currency -> Format a number to a currency format.
+    date -> Format a date to a specified format.
+    filter -> Select a subset of items from an array.
+    json -> Format an object to a JSON string.
+    limitTo -> Limits an array/string, into a specified number of elements/characters.
+    lowercase -> Format a string to lower case.
+    number -> Format a number to a string.
+    orderBy -> Orders an array by an expression.
+    uppercase -> Format a string to upper case.
+-->
+
+    <h4>{{ firstName + " " + lastName | uppercase }}</h4>
+    <h4>{{ firstName + " " + lastName | lowercase }}</h4>
+    
+    <h2>Sorted by orderBy (country)</h2>
+    <ul>
+        <li ng-repeat="x in names | orderBy:'country'">
+            {{ x.name + " " + x.country }}
+        </li>
+    </ul>
+
+    <h2>Filtered by Filter and ordered by name</h2>
+    <ul>
+        <li ng-repeat="x in names | filter: 'a' | orderBy: 'name'"> <!-- Muestra todos los que contengan una i -->
+            {{ x.name + " " + x.country }}
+        </li>
+    </ul>
+
+    <h2>Filter based on user input</h2>
+    <input type="text" ng-model="test" autofocus>
+    <ul>
+        <li ng-repeat="x in names | filter : test">
+            {{ x.name + " " + x.country }}
+        </li>
+    </ul>
+
+    <h2>Sorting elements by clicking on the column head (name or country)</h2>
+    <table border="1" width="50%">
+        <tr>
+            <th ng-click="orderByMe('name')">Name</th>
+            <th ng-click="orderByMe('country')">Country</th>
+        </tr>
+        <tr ng-repeat="x in names | orderBy:myOrderBy">
+            <td>{{x.name}}</td>
+            <td>{{x.country}}</td>
+        </tr>
+    </table>
+
+    <h2>Custom filters</h2>
+    <ul>
+        <li ng-repeat="x in names">
+            {{ x.name + " " + x.country | myFormat }}
+        </li>
+    </ul>
+
+    <h1>Services</h1>
+
+    <h2>Service to get actual url</h2>
+    <h4 ng-bind="myUrl"></h4>
+
+    <h2>Custom services (Convert to hexadecimal the number 255)</h2>
+    <h4 ng-bind="hex"></h4>
+
+    <h1>$http</h1>
+
+    <h2>Getting content from other file</h2>
+    <h4>{{ myWelcome }}</h4>
+
+    
 </body>
 </html>

@@ -2,20 +2,72 @@
 
 var app = angular.module("myApp", []);
 //Controllers
-app.controller("myCrtl", function ($scope) {
+// $location added to work with services
+// hexafy added to work with custom services
+app.controller("myCrtl", function ($scope, $location, hexafy, $http) { 
     $scope.firstName = "John";
     $scope.lastName = "Doe";
+    $scope.myUrl = $location.absUrl(); //For services
+    $scope.hex = hexafy.myFunc(255); //For custom services
+
+    //To iterate with ng-repeat
+    $scope.names = [
+        { name: 'Jani', country: 'Norway' },
+        { name: 'Carl', country: 'Sweden' },
+        { name: 'Margareth', country: 'England' },
+        { name: 'Hege', country: 'Norway' },
+        { name: 'Joe', country: 'Denmark' },
+        { name: 'Gustav', country: 'Sweden' },
+        { name: 'Birgit', country: 'Denmark' },
+        { name: 'Mary', country: 'England' },
+        { name: 'Kai', country: 'Norway' }
+    ];
+
+    //When click event
+    $scope.changeName = function () {
+        $scope.firstName = "Nelly";
+    }
+    //Functions
+    $scope.fullName = function () {
+        return $scope.firstName + " " + $scope.lastName;
+    };
+    //Custom sorting
+    $scope.orderByMe = function (x) {
+        $scope.myOrderBy = x;
+    }
+    //$http
+    $http.get("welcome.html")
+    .then(function (response) {
+        $scope.myWelcome = response.data;
+    }, function(response){
+        //Handling error (Like Ajax)
+        $scope.myWelcome = "Something went wrong";
+    });
+    
 });
 //Directives
-/*app.directive("directivetest", function () {
+app.directive("testDirect", function () {
     return {
-        template: "<h1>Made by a directive!</h1>"
+        template: "<h3>Made by a directive!</h3>"
     };
-});*/
-
-var app = angular.module("myApp", []);
-app.directive("w3TestDirective", function () {
-    return {
-        template: "<h1>Made by a directive!</h1>"
+});
+//Custom Filters
+app.filter('myFormat', function () {
+    return function (x) { //Uppercase the even positions
+        var i, c, txt = "";
+        for (i = 0; i < x.length; i++) {
+            c = x[i];
+            if (i % 2 == 0) {
+                c = c.toUpperCase();
+            }
+            txt += c;
+        }
+        return txt;
     };
+});
+//Custom Services
+app.service('hexafy', function () {
+    this.myFunc = function (x) {
+        return x.toString(16);
+    }
 });
