@@ -9,6 +9,10 @@ app.controller("myCrtl", function ($scope, $location, hexafy, $http) {
     $scope.lastName = "Doe";
     $scope.myUrl = $location.absUrl(); //For services
     $scope.hex = hexafy.myFunc(255); //For custom services
+    $scope.showMe = false; //Events
+    $scope.master = { firstName: "John", lastName: "Doe" }; //Forms
+
+   
 
     //To iterate with ng-repeat
     $scope.names = [
@@ -43,7 +47,18 @@ app.controller("myCrtl", function ($scope, $location, hexafy, $http) {
         //Handling error (Like Ajax)
         $scope.myWelcome = "Something went wrong";
     });
-    
+    $http.get("customers.html").then(function (response) {
+        $scope.myData = response.data.records;
+    });
+    //Toggle show/hide
+    $scope.myFunc = function () {
+        $scope.showMe = !$scope.showMe;
+    }
+    //Forms
+    $scope.reset = function () {
+        $scope.user = angular.copy($scope.master);
+    };
+    $scope.reset();
 });
 //Directives
 app.directive("testDirect", function () {

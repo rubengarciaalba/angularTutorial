@@ -6,7 +6,7 @@
     <script src="scripts/angular.js"></script>
     <script src="scripts/app.js"></script>
 </head>
-<body ng-app="myApp" ng-controller="myCrtl">
+<body ng-app="myApp" ng-controller="myCrtl" ng-init="mySwitch=true, count=0">
 
     <h1>Data Two-Way Binding and Controller</h1>
 
@@ -109,6 +109,112 @@
     <h2>Getting content from other file</h2>
     <h4>{{ myWelcome }}</h4>
 
+    <h2>Retrieving data from JASON</h2>
+    <ul>
+        <li ng-repeat="x in myData">
+            {{ x.Name + " " + x.Country }}
+        </li>
+    </ul>
+
+    <h1>Conditions (ng-ig)</h1>
+    <table>
+        <tr ng-repeat="x in names">
+            <td ng-if="$odd" style="background-color:#f1f1f1">
+                {{ x.name }}
+            </td>
+            <td ng-if="$even">
+                {{ x.name }}
+            </td>
+            <td ng-if="$odd" style="background-color:#f1f1f1">
+                {{ x.country }}
+            </td>
+            <td ng-if="$even">
+                {{ x.country }}
+            </td>
+        </tr>
+    </table>
+
+    <h1>Filling Select Box</h1>
+    <select ng-model="selectedName" ng-options="x.name for x in names"></select>
+    <h5>You selected: {{selectedName.name}}</h5>
+
+    <h1>DOM Samples</h1>
+
+    <h2>Disabled (ng-disabled)</h2>
+    <p>
+        <button ng-disabled="mySwitch">Click Me!</button>
+        {{ "Diabled = " + mySwitch }}
+    </p>
+    <p>
+        <input type="checkbox" ng-model="mySwitch">Button
+    </p>
+    
+    <h2>Show/Hide (ng-show/ng-hide)</h2>
+    <p ng-show="true">I am visible.</p>
+    <p ng-show="false">I am invisible.</p>
+    <p ng-hide="true">I am not visible.</p>
+    <p ng-hide="false">I am visible.</p>
+
+    <h1>Events</h1>
+    <!--           
+        ng-blur
+        ng-change
+        ng-click
+        ng-copy
+        ng-cut
+        ng-dblclick
+        ng-focus
+        ng-keydown
+        ng-keypress
+        ng-keyup
+        ng-mousedown
+        ng-mouseenter
+        ng-mouseleave
+        ng-mousemove
+        ng-mouseover
+        ng-mouseup
+        ng-paste
+    -->
+    <h2 ng-mousemove="count = count + 1">Mouse over me!</h2>
+    <button ng-click="count = count + 1">Click me!</button>
+    <h4>{{ "Counter: " + count }}</h4>
+
+    <h2>Toggle</h2>
+    <button ng-click="myFunc()">Click Me!</button>
+    <div ng-show="showMe">
+        <h5>Menu:</h5>
+        <div>Pizza</div>
+        <div>Pasta</div>
+        <div>Pesce</div>
+    </div>
+
+    <h1>Forms</h1>
+
+    <h2>Reset form</h2>
+    <form novalidate>
+        First Name:<br>
+        <input type="text" ng-model="user.firstName"><br>
+        Last Name:<br>
+        <input type="text" ng-model="user.lastName">
+        <br><br>
+        <button ng-click="reset()">RESET</button>
+    </form>
+    <p>form = {{user}}</p>
+    <p>master = {{master}}</p>
+
+    <h2>Form Validation</h2>
+    <form name="myForm">
+        <input name="myInput" ng-model="myInput" required>
+        <input type="email" name="myInput" ng-model="myInput">
+        <p>
+            Name (required with form and inputs states):
+            <input name="myName" ng-model="myName" required>
+            <span ng-show="myForm.myName.$touched && myForm.myName.$invalid">The name is required.</span>
+        </p>
+    </form>
+
+    <p>The input's valid state is:</p>
+    <h4>{{myForm.myInput.$valid}}</h4>
     
 </body>
 </html>
